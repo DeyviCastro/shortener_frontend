@@ -18,9 +18,9 @@ export const LoginView = () => {
     const handleLogin= async (formData:LoginForm) => {
 
         try {
-            const {data} = await api.post("/auth/login", formData)
+            const {data} = await api.post("/api/auth/login", formData)
             
-
+            console.log(data)
             localStorage.setItem("token", data.token)
             navigate("/acortadorURL")
         } catch(error)  {

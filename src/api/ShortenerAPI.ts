@@ -4,7 +4,7 @@ import type { enlace, Link, newLink } from "../types";
 
 export async function getUser() {
     try {
-        const { data } = await api.get<Link[]>('/getLinks')
+        const { data } = await api.get<Link[]>('/api/links')
 
 
         return (data)
@@ -19,7 +19,7 @@ export async function getUser() {
 
 export async function createShortLink(formData: newLink) {
     try {
-        const { data } = await api.post<enlace>('/home', formData)
+        const { data } = await api.post<enlace>('/api/links', formData)
 
         return data
 
@@ -34,8 +34,9 @@ export async function createShortLink(formData: newLink) {
 
 export async function deleteLink(formData: string) {
     try {
-
-        const {data} = await api.delete<string>(`/links/${formData}`)
+        console.log(formData)
+        const {data} = await api.delete<string>(`/api/links/${formData}`)
+        console.log(data)
         return data
 
     } catch (error) {

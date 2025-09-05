@@ -28,6 +28,7 @@ export const ObtenerLinks = () => {
     mutationFn: deleteLink,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
+      console.log(data)
       toast.success(data)
     },
     onError: () => {
