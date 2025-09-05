@@ -4,12 +4,13 @@ import type { RegisterForm } from "../types";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { toast } from "sonner";
 import api from "../config/axios";
+import { isAxiosError } from "axios";
 
 export const RegisterView = () => {
 
     const navigate = useNavigate();
 
-    const initialValues:RegisterForm = {
+    const initialValues: RegisterForm = {
         name: "",
         email: "",
         password: "",
@@ -18,21 +19,27 @@ export const RegisterView = () => {
 
 
 
-    const { register, handleSubmit, watch ,formState:{errors} } = useForm({defaultValues: initialValues})
-    
-    const handleRegister = async(formData:RegisterForm) => {
+    const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues: initialValues })
 
-        const {data} = await api.post("/auth/register", formData)
-        toast.success(data)
+    const handleRegister = async (formData: RegisterForm) => {
 
-        navigate("/auth/login")
+        try {
+            const { data } = await api.post("/auth/register", formData)
+            toast.success(data)
+
+            navigate("/auth/login")
+        } catch (error) {
+            if (isAxiosError(error) && error.response) {
+                toast.error(error.response.data.error)
+            }
+        }
 
     }
 
     return (
         <>
             <div className="max-w-md mx-auto ">
-                <h1 className="text-4xl text-white font-semibold text-center">Registrarse</h1>
+                <h1 className="text-4xl text-white font-semibold text-center">Crear cuenta</h1>
                 <form
                     onSubmit={handleSubmit(handleRegister)}
                     className="bg-white px-5 py-20  space-y-10 mt-10"
@@ -44,7 +51,7 @@ export const RegisterView = () => {
                             type="text"
                             placeholder="Tu Nombre"
                             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
-                            {...register('name',{
+                            {...register('name', {
                                 required: "El nombre es obligatorio"
                             })}
                         />
@@ -57,7 +64,7 @@ export const RegisterView = () => {
                             type="email"
                             placeholder="Email de Registro"
                             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
-                            {...register('email',{
+                            {...register('email', {
                                 required: "El email es obligatorio",
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -76,11 +83,11 @@ export const RegisterView = () => {
                             type="password"
                             placeholder="Password de Registro"
                             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
-                            {...register('password',{
+                            {...register('password', {
                                 required: "El password es obligatorio",
-                                minLength:{
-                                    value:4,
-                                    message:"El password debe tener al menos 4 caracteres"
+                                minLength: {
+                                    value: 4,
+                                    message: "El password debe tener al menos 4 caracteres"
                                 }
                             })}
                         />
@@ -95,7 +102,7 @@ export const RegisterView = () => {
                             type="password"
                             placeholder="Repetir Password"
                             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
-                            {...register('confirmPassword',{
+                            {...register('confirmPassword', {
                                 required: "El password es obligatorio",
                                 validate: (value) => value === watch('password') || "Las contraseñas no son iguales"
                             })}

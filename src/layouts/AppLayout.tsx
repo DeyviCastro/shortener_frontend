@@ -31,7 +31,7 @@ export const AppLayout = () => {
           <div className="flex items-center justify-between flex-1 flex-wrap ">
             <div className="flex items-center">
               <img src="/vite.svg" alt="" />
-              <h1 className="text-center font-bold sm:text-xl md:text-3xl text-white">Acortador de Links</h1>
+              <h1 className="text-center font-bold sm:text-xl md:text-3xl text-white">Shortly</h1>
             </div>
 
             <CerrarSesion />

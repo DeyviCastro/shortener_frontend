@@ -6,6 +6,7 @@ import { AppLayout } from "./layouts/AppLayout";
 import { Acortador } from "./views/Acortador";
 import { ObtenerLinks } from "./views/ObtenerLinks";
 import { Graphics } from "./views/Graphics";
+import { HomeView } from "./views/HomeView";
 
 
 export const Router = () => {
@@ -24,6 +25,7 @@ export const Router = () => {
           <Route path="graficos" element={<Graphics />} />
         </Route>
 
+        <Route path="/" element={<HomeView />} />
 
       </Routes>
     </BrowserRouter>
